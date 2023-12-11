@@ -1,0 +1,7 @@
+.idea
+/gradio_demo/flagged/
+flagged
+
+facetorch
+models
+data
