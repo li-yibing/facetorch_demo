@@ -1,3 +1,6 @@
 facetorch>=0.2.1
 loguru
 gradio
+joblib
+minio
+pysftp

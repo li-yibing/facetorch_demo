@@ -20,7 +20,7 @@ class FaceTorch:
             include_tensors=True,
             path_output=None,
         )
-        logger.debug(f"inference response: {self.response}")
+        # logger.debug(f"inference response: {self.response}")
         result = self.response
         return result
 
