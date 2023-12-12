@@ -77,7 +77,8 @@ class MinIODataRepo(DataRepo):
                 self.retrieve_file(obj.object_name, str(local_obj_dir))
 
     def list_directory(self, remote_path: str):
-        object_list = self.minio_client.list_objects(self.default_bucket, prefix=self._format_path(remote_path))
+        formatted_path = self._format_path(remote_path)
+        object_list = self.minio_client.list_objects(self.default_bucket, prefix=formatted_path)
         return [obj for obj in object_list]
 
     def delete_file(self, remote_path: str):
@@ -96,6 +97,9 @@ class MinIODataRepo(DataRepo):
     def get_object(self, remote_path):
         return self.minio_client.get_object(self.default_bucket, self._format_path(remote_path))
 
+    def get_object_url(self, remote_path):
+        return self.minio_client.presigned_get_object(self.default_bucket, self._format_path(remote_path))
+
     def _check_file(self, remote_path: str):
         try:
             if self.minio_client.stat_object(self.default_bucket, self._format_path(remote_path)):
@@ -105,7 +109,10 @@ class MinIODataRepo(DataRepo):
         return False
 
     def _format_path(self, path: str):
-
+        # 如果是空字符串，直接返回
+        if not path:
+            return path
+        # 如果是文件路径，加上/后缀
         path = path.replace('\\', '/')
         if Path(path).is_dir() and not path.endswith('/'):
             path = path + '/'

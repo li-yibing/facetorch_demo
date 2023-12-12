@@ -35,6 +35,9 @@ class FileManager:
     def get_object(self, remote_path):
         return self.data_repo.get_object(remote_path)
 
+    def get_object_url(self, remote_path):
+        return self.data_repo.get_object_url(remote_path)
+
     # Parkinson
     def list_remote(self, path: str):
         files = self.data_repo.list_directory(path)
